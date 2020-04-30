@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import routes from './routes';
 
-// import authMiddleware from './app/middlewares/auth';
 // import schemaValidator from './app/middlewares/schemavalidator';
 
 import './database';
@@ -20,7 +19,6 @@ class App {
     middlewares() {
         this.server.use(cors());
         this.server.use(express.json());
-        // this.server.use(authMiddleware); // valid token
         // this.server.use(validRequest);
     }
 

@@ -4,6 +4,9 @@ import { Router } from 'express';
 import ProfileController from './app/controllers/ProfileController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import PatientController from './app/controllers/PatientController';
+
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
@@ -18,5 +21,11 @@ routes.post('/setusers', UserController.store);
 
 // Token
 routes.post('/refreshtoken', SessionController.store);
+
+// valid token
+routes.use(authMiddleware);
+
+// Patient
+routes.post('/setpatient', PatientController.store);
 
 export default routes;

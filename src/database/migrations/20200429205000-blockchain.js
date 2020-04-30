@@ -29,6 +29,18 @@ module.exports = {
             id_type: {
                 type: Sequelize.STRING,
             },
+
+            // auto
+            createdAt: {
+                type: Sequelize.DATE,
+                allowNull: false,
+            },
+
+            // auto
+            updatedAt: {
+                type: Sequelize.DATE,
+                allowNull: false,
+            },
         });
     },
 
