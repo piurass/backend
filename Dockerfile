@@ -16,6 +16,6 @@ RUN yarn install
 COPY . .
 COPY --chown=node:node . .
 USER node
-EXPOSE 8080
+EXPOSE 3333
 RUN yarn sequelize db:migrate
 CMD [ "yarn", "dev" ]
