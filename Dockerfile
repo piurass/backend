@@ -12,6 +12,7 @@ ENV HOST 35.222.24.73
 ENV USERNAME megahack
 ENV PASSWORD -Qh@P*T3z9k@uPvb
 ENV DATABASE proto
+ENV BASEURLBLOCK http://localhost:5001
 RUN yarn install
 COPY . .
 COPY --chown=node:node . .
