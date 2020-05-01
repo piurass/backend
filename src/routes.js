@@ -27,5 +27,6 @@ routes.use(authMiddleware);
 
 // Patient
 routes.post('/setpatient', PatientController.store);
+routes.get('/getpatient/:id', PatientController.listId);
 
 export default routes;
