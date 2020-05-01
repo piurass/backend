@@ -11,12 +11,12 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 // Profile
-routes.get('/getprofiles', ProfileController.list);
-routes.post('/setprofiles', ProfileController.store);
+routes.get('/profiles', ProfileController.list);
+routes.post('/profiles', ProfileController.store);
 
 // Users
-routes.get('/getusers', UserController.list);
-routes.post('/setusers', UserController.store);
+routes.get('/users', UserController.list);
+routes.post('/users', UserController.store);
 // routes.put('/users', UserController.update);
 
 // Token
@@ -26,7 +26,7 @@ routes.post('/refreshtoken', SessionController.store);
 routes.use(authMiddleware);
 
 // Patient
-routes.post('/setpatient', PatientController.store);
-routes.get('/getpatient/:id', PatientController.listId);
+routes.post('/patient', PatientController.store);
+routes.get('/patient/:id', PatientController.listId);
 
 export default routes;
