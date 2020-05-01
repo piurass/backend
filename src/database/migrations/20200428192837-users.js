@@ -22,12 +22,12 @@ module.exports = {
 
             // blockchain
             private_key: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
 
             // blockchain
             public_key: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
 
             // fk profile
