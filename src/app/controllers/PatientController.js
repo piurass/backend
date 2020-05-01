@@ -10,9 +10,17 @@ import ChainApi from '../../services/ChainApi';
 class PatientController {
     async store(req, res) {
         const { userId } = req;
-        const { public_key } = await User.findByPk(userId);
+        const user = await User.findByPk(userId);
 
-        const json = { user: userId, public_key, data: req.body };
+        if (!user) {
+            return res.status(404).json({ error: 'User ID not found' });
+        }
+
+        const json = {
+            user: userId,
+            public_key: user.public_key,
+            data: req.body,
+        };
 
         const { baseUrl } = ChainApi.init();
 
