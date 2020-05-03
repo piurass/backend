@@ -22,8 +22,15 @@ routes.post('/users', UserController.store);
 // Token
 routes.post('/refreshtoken', SessionController.store);
 
+// QrCode ID
+// FIXME: Refatorar de forma mais segura assim que possivel
+routes.get('/qrcode/patient/:id', PatientController.qrcodeId);
+
 // valid token
 routes.use(authMiddleware);
+
+// QrCode
+routes.get('/qrcode', PatientController.qrcode);
 
 // Patient
 routes.post('/patient', PatientController.store);
