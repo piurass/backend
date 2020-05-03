@@ -61,19 +61,15 @@ class PatientController {
     }
 
     async listId(req, res) {
-        const { id } = req.params;
+        const { userId } = req;
         const id_type = 'patients';
 
-        if (!id) {
-            return res.status(400).json({ error: 'Id not informed' });
-        }
-
         const { private_key, public_key } = await User.findOne({
-            where: { id },
+            where: { userId },
         });
 
         const blockchain = await Blockchain.findOne({
-            where: { id_user: id, id_type },
+            where: { id_user: userId, id_type },
             attributes: ['id_block'],
         });
 
