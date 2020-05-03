@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-/* eslint-disable no-restricted-syntax */
 import axios from 'axios';
+import NodeRSA from 'node-rsa';
 
 import Blockchain from '../models/Blockchain';
 import User from '../models/User';
@@ -16,10 +16,17 @@ class PatientController {
             return res.status(404).json({ error: 'User ID not found' });
         }
 
+        const key = new NodeRSA(user.private_key);
+        key.setOptions({ environment: 'browser' });
+        key.importKey(user.public_key);
+
+        const encrypted = key.encrypt(req.body, 'base64');
+
         const json = {
             user: userId,
-            public_key: user.public_key,
-            data: req.body,
+            // public_key: user.public_key,
+            // data: req.body,
+            data: encrypted,
         };
 
         const { baseUrl } = ChainApi.init();
@@ -60,8 +67,9 @@ class PatientController {
             return res.status(400).json({ error: 'Id not informed' });
         }
 
-        // Usado para descriptografar o transactions
-        // const { private_key } = await User.findOne({ where: { id } });
+        const { private_key, public_key } = await User.findOne({
+            where: { id },
+        });
 
         const blockchain = await Blockchain.findOne({
             where: { id_user: id, id_type },
@@ -79,21 +87,28 @@ class PatientController {
                 `${baseUrl}/get_block/${blockchain.id_block}`
             );
 
-            // TODO: Avaliar pois retorno do transactions virá criptografado
+            if (data) {
+                const objArr = data.block.transactions;
+                const key = new NodeRSA(private_key);
+                // const key = new NodeRSA(private_key, 'pkcs1-private-pem');
+                // const key = new NodeRSA({ b: 512 });
+                key.setOptions({ environment: 'browser' });
+                key.importKey(public_key);
+                // key.importKey(private_key);
 
-            const objArr = data.block.transactions;
+                // const a = key.sign(objArr[0].data);
+                // console.log(key.verify(objArr[0].data, a, '', 'base64'));
 
-            for (const prop in objArr) {
-                if (typeof objArr[prop].data.patients !== 'undefined') {
-                    return res.status(200).json(objArr[prop].data.patients);
-                }
+                const decrypted = key.decrypt(objArr[0].data, 'json');
+                console.log(decrypted);
+                return res.status(200).json(decrypted);
             }
         } catch (error) {
             console.log('Err get_block');
             console.log(error);
         }
 
-        return res.status(204).json({ status: 'Blockchain not found' });
+        return res.status(200).json({ status: 'Blockchain not found' });
     }
 }
 

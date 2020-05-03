@@ -12,6 +12,7 @@ class User extends Model {
                 private_key: Sequelize.TEXT,
                 public_key: Sequelize.TEXT,
                 id_profile: Sequelize.INTEGER,
+                // TODO: Adicionar campo e rota para usuario confirmado
             },
             {
                 sequelize,
@@ -24,6 +25,7 @@ class User extends Model {
                 user.password_hash = await bcrypt.hash(user.password, 8);
 
                 const key = new NodeRSA({ b: 512 });
+                key.setOptions({ environment: 'browser' });
                 key.generateKeyPair();
 
                 user.private_key = key.exportKey('private');
