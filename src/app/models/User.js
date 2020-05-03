@@ -1,7 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import NodeRSA from 'node-rsa';
-import sshpk from 'sshpk';
 
 class User extends Model {
     static init(sequelize) {
@@ -27,12 +26,8 @@ class User extends Model {
                 const key = new NodeRSA({ b: 512 });
                 key.generateKeyPair();
 
-                const keyPem = key.exportKey('public');
-                const keyPk = sshpk.parseKey(keyPem, 'pem');
-                const sshKey = keyPk.toString('ssh');
-
                 user.private_key = key.exportKey('private');
-                user.public_key = sshKey;
+                user.public_key = key.exportKey('public');
             }
         });
 
