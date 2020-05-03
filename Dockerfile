@@ -13,6 +13,8 @@ ENV USERNAME megahack
 ENV PASSWORD -Qh@P*T3z9k@uPvb
 ENV DATABASE proto
 ENV BASEURLBLOCK http://localhost:5001
+ENV SendGridApiKey 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
+ENV hostURL http://localhost:3333
 RUN yarn install
 COPY . .
 COPY --chown=node:node . .

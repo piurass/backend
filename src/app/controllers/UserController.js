@@ -1,8 +1,12 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/User';
+import VerificationToken from '../models/VerificationToken';
 
 import authConfig from '../../config/auth';
+
+const { sendVerificationEmail } = require('../../helpers/sendgrid');
 
 class UserController {
     async store(req, res) {
@@ -14,16 +18,37 @@ class UserController {
             return res.status(400).json({ error: 'User already exists.' });
         }
 
-        const { id, email } = await User.create(req.body);
+        try {
+            const { id, email, firstname, password } = await User.create(
+                req.body
+            );
 
-        return res.json({
-            user: {
-                id,
-                email,
-            },
-            token: jwt.sign({ id }, authConfig.secret, {
-                expiresIn: authConfig.expiresIn,
-            }),
+            const verification = await VerificationToken.create({
+                userId: id,
+                token: await bcrypt.hash(password, 12),
+            });
+
+            if (verification) {
+                sendVerificationEmail(email, verification.token);
+            }
+
+            return res.json({
+                user: {
+                    id,
+                    email,
+                    firstname,
+                },
+                token: jwt.sign({ id }, authConfig.secret, {
+                    expiresIn: authConfig.expiresIn,
+                }),
+            });
+        } catch (error) {
+            console.log('Error---->');
+            console.log(error);
+        }
+
+        return res.status(400).json({
+            error: 'Could not record user at the momentUser already exists.',
         });
     }
 

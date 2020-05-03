@@ -5,6 +5,7 @@ import ProfileController from './app/controllers/ProfileController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import PatientController from './app/controllers/PatientController';
+import VerificationController from './app/controllers/VerificationController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -13,6 +14,9 @@ const routes = new Router();
 // Profile
 routes.get('/profiles', ProfileController.list);
 routes.post('/profiles', ProfileController.store);
+
+// verication?token=[string]&email=[string]
+routes.get('/verification', VerificationController.validation);
 
 // Users
 routes.get('/users', UserController.list);

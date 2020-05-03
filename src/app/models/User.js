@@ -12,7 +12,9 @@ class User extends Model {
                 private_key: Sequelize.TEXT,
                 public_key: Sequelize.TEXT,
                 id_profile: Sequelize.INTEGER,
-                // TODO: Adicionar campo e rota para usuario confirmado
+                firstname: Sequelize.STRING,
+                lastname: Sequelize.STRING,
+                isverified: Sequelize.BOOLEAN,
             },
             {
                 sequelize,
@@ -40,5 +42,13 @@ class User extends Model {
         return bcrypt.compare(password, this.password_hash);
     }
 }
+
+/*
+User.hasOne(VerificationToken, {
+    as: 'verificationtoken',
+    foreignKey: 'userId',
+    foreignKeyConstraint: true,
+});
+*/
 
 export default User;
