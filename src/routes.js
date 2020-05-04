@@ -12,6 +12,8 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
+routes.get('/status', (req, res) => res.status(200).send());
+
 // Profile
 routes.get('/profiles', ProfileController.list);
 routes.post('/profiles', ProfileController.store);
