@@ -43,12 +43,4 @@ class User extends Model {
     }
 }
 
-/*
-User.hasOne(VerificationToken, {
-    as: 'verificationtoken',
-    foreignKey: 'userId',
-    foreignKeyConstraint: true,
-});
-*/
-
 export default User;

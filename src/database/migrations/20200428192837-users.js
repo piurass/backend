@@ -37,8 +37,8 @@ module.exports = {
                     model: 'profiles',
                     key: 'id',
                 },
-                // onUpdate: 'cascade',
-                // onDelete: 'cascade'
+                onUpdate: 'cascade',
+                onDelete: 'cascade',
             },
 
             // auto

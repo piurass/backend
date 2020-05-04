@@ -6,6 +6,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import PatientController from './app/controllers/PatientController';
 import VerificationController from './app/controllers/VerificationController';
+import QrCodeLinksController from './app/controllers/QrcodeLinksController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -24,17 +25,17 @@ routes.post('/users', UserController.store);
 // routes.put('/users', UserController.update);
 
 // Token
+// routes.post('/login', SessionController.login);
 routes.post('/refreshtoken', SessionController.store);
 
 // QrCode ID
-// FIXME: Refatorar de forma mais segura assim que possivel
-routes.get('/qrcode/patient/:id', PatientController.qrcodeId);
+routes.get('/qrcodevalid', QrCodeLinksController.qrcodeId);
 
 // valid token
 routes.use(authMiddleware);
 
 // QrCode
-routes.get('/qrcode', PatientController.qrcode);
+routes.get('/qrcode', QrCodeLinksController.qrcode);
 
 // Patient
 routes.post('/patient', PatientController.store);

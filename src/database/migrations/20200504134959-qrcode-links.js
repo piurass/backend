@@ -1,6 +1,6 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('blockchain', {
+        return queryInterface.createTable('qrcodelinks', {
             // auto
             id: {
                 type: Sequelize.INTEGER,
@@ -9,42 +9,37 @@ module.exports = {
                 primaryKey: true,
             },
 
-            // fk users
             id_user: {
                 type: Sequelize.INTEGER,
-                references: {
-                    model: 'users',
-                    key: 'id',
-                },
+                allowNull: false,
                 onUpdate: 'cascade',
                 onDelete: 'cascade',
+                references: { model: 'users', key: 'id' },
             },
 
-            // index na blockchain
-            id_block: {
-                type: Sequelize.INTEGER,
-            },
-
-            // id do tipo de busca
-            id_type: {
+            linkCrypto: {
                 type: Sequelize.STRING,
+            },
+
+            isValid: {
+                type: Sequelize.BOOLEAN,
             },
 
             // auto
             createdAt: {
-                type: Sequelize.DATE,
                 allowNull: false,
+                type: Sequelize.DATE,
             },
 
             // auto
             updatedAt: {
-                type: Sequelize.DATE,
                 allowNull: false,
+                type: Sequelize.DATE,
             },
         });
     },
 
     down: (queryInterface) => {
-        return queryInterface.dropTable('blockchain');
+        return queryInterface.dropTable('qrcodelinks');
     },
 };

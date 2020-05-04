@@ -48,7 +48,7 @@ class UserController {
         }
 
         return res.status(400).json({
-            error: 'Could not record user at the momentUser already exists.',
+            error: 'Could not record user at the moment User already exists.',
         });
     }
 
