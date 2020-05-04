@@ -21,11 +21,12 @@ routes.get('/verification', VerificationController.validation);
 
 // Users
 routes.get('/users', UserController.list);
+routes.get('/users/:id', UserController.detail);
 routes.post('/users', UserController.store);
 // routes.put('/users', UserController.update);
 
 // Token
-// routes.post('/login', SessionController.login);
+routes.post('/login', SessionController.store);
 routes.post('/refreshtoken', SessionController.store);
 
 // QrCode ID
@@ -33,6 +34,9 @@ routes.get('/qrcodevalid', QrCodeLinksController.qrcodeId);
 
 // valid token
 routes.use(authMiddleware);
+
+// Profile
+routes.get('/me', SessionController.profile);
 
 // QrCode
 routes.get('/qrcode', QrCodeLinksController.qrcode);

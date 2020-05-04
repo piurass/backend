@@ -18,16 +18,32 @@ class SessionController {
             return res.status(401).json({ error: 'Password does not match.' });
         }
 
-        const { id } = user;
+        const { id, firstname, lastname } = user;
 
         return res.json({
             user: {
                 id,
                 email,
+                name: `${firstname} ${lastname}`,
             },
             token: jwt.sign({ id }, authConfig.secret, {
                 expiresIn: authConfig.expiresIn,
             }),
+        });
+    }
+
+    async profile(req, res) {
+        const { userId } = req;
+
+        const user = await User.findByPk(userId, {
+            attributes: {
+                exclude: ['private_key', 'public_key', 'password_hash'],
+            },
+        });
+
+        return res.json({
+            ...user.toJSON(),
+            name: `${user.firstname} ${user.lastname}`,
         });
     }
 }

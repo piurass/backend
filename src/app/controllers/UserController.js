@@ -79,6 +79,16 @@ class UserController {
         });
     }
 
+    async detail(req, res) {
+        const { id } = req.params;
+        const users = await User.findByPk(id, {
+            attributes: {
+                exclude: ['public_key', 'private_key', 'password_hash'],
+            },
+        });
+        return res.json(users);
+    }
+
     async list(req, res) {
         const users = await User.findAll({
             attributes: ['id', 'email', 'id_profile'],
